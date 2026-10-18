@@ -45,11 +45,11 @@ public class Glavna {
             System.out.print("Prezime trenera: ");
             String prezimeTrenera = sc.nextLine();
             System.out.print("Godina rođenja: ");
-            int godinaRođenja = Integer.parseInt(sc.nextLine());
+            int godinaRodenjaTrenera = Integer.parseInt(sc.nextLine());
             System.out.print("Godine iskustva: ");
             int godineiskustva = Integer.parseInt(sc.nextLine());
 
-            Trener privremeniTrener = new Trener(imeTrenera, prezimeTrenera, godinaRođenja, godineiskustva);
+            Trener privremeniTrener = new Trener(imeTrenera, prezimeTrenera, godinaRodenjaTrenera, godineiskustva);
 
             //upis igraca
             System.out.print("\n Koliko igrača želite unijeti: ");
@@ -99,13 +99,13 @@ public class Glavna {
                 if (!pronaden) {
                     System.out.println("Nema kluba s tim nazivom.");
                 }
-            }else if (odabir == 0) {
+            } else if (odabir == 0) {
                 System.out.println("Program zavrsava.");
-            }else{
+            } else {
                 System.out.println("Ovo nije opcija.");
             }
-        } while (odabir != 0 );
+        } while (odabir != 0);
 
-
+        sc.close();
     }
 }
