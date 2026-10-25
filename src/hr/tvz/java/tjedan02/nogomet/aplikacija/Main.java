@@ -1,11 +1,12 @@
 package hr.tvz.java.tjedan02.nogomet.aplikacija;
 
-import hr.tvz.java.tjedan02.nogomet.apstraktne.Osoba;
+import hr.tvz.java.tjedan02.nogomet.apstraktne.Gradjevina;
 import hr.tvz.java.tjedan02.nogomet.enumeracije.Pozicija;
 import hr.tvz.java.tjedan02.nogomet.klase.Igrac;
 import hr.tvz.java.tjedan02.nogomet.klase.NogometniKlub;
 import hr.tvz.java.tjedan02.nogomet.klase.Stadion;
 import hr.tvz.java.tjedan02.nogomet.klase.Trener;
+import hr.tvz.java.tjedan02.nogomet.zapisi.Adresa;
 
 import java.util.Scanner;
 
@@ -40,7 +41,7 @@ public class Main {
             System.out.print("Je li stadion natkriven: ");
             boolean natkriven = Boolean.parseBoolean(sc.nextLine());
 
-            Stadion privremeniStadion = new Stadion(nazivStadiona, gradStadiona);
+            Stadion privremeniStadion = new Stadion(new Adresa("Ulica Mediteranskih igara","2","Split"),nazivStadiona, gradStadiona);
             privremeniStadion.setKapacitet(kapacitet);
             privremeniStadion.setGodinaIzgradnje(godinaIzgradnje);
             privremeniStadion.setNatkriven(natkriven);
@@ -89,8 +90,9 @@ public class Main {
                 Igrac igr = new Igrac(ime, prezime, godinaRodenja, brojDresa, pozicije[brojPozicije - 1]);
                 igraci[j] = igr;
             }
-
-            NogometniKlub nk = new NogometniKlub(naziv, grad, godinaOsnivanja, privremeniStadion, privremeniTrener, igraci);
+            Gradjevina[] gradjevina = new Gradjevina[1];
+            gradjevina = new Stadion(new Adresa("Ulica Mediteranskih igara","2","Split"), );
+            NogometniKlub nk = new NogometniKlub(naziv, grad, godinaOsnivanja,gradjevina[],privremeniTrener, igraci);
             klubovi[i] = nk;
         }
 
