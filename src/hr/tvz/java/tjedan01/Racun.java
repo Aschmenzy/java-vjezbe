@@ -34,5 +34,7 @@ public class Racun {
         } else {
             System.out.printf("Za platiti: %.2f EUR%n", ukupno);
         }
+
+
     }
 }

@@ -1,11 +1,12 @@
 package hr.tvz.java.tjedan01.playlista;
 
+import hr.tvz.java.tjedan01.pripremalabos1.Stadion;
+
 public class Pjesma {
     private final static int ZADANO_TRAJANJE = 180;
     private String naziv;
     private String izvodac;
     private int trajanje;
-
     private static int brojac = 0;
 
     public Pjesma(String naziv, String izvodac, int trajanje) {

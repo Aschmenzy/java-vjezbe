@@ -6,7 +6,6 @@ public class Lik {
     private int zdravlje;
     private int snaga;
 
-
     public Lik(String ime, int stanga) {
         this.ime = ime;
         this.zdravlje = POCETNO_ZDRAVLJE;
@@ -36,10 +35,13 @@ public class Lik {
         this.snaga = snaga;
     }
 
-    public void primiUdarac(int steta) {
-        if(steta < 0) { return; }
 
-        if (zdravlje -  steta > 0) {
+    public void primiUdarac(int steta) {
+        if (steta < 0) {
+            return;
+        }
+
+        if (zdravlje - steta > 0) {
             zdravlje -= steta;
         } else zdravlje = 0;
     }
@@ -49,7 +51,7 @@ public class Lik {
             System.out.println(this.ime + " napada " + protivnik.getIme() + " za " + this.snaga + " stete.");
             protivnik.primiUdarac(this.getSnaga());
         } else {
-            System.out.println( this.ime + " ne moze napasti jer je mrtav");
+            System.out.println(this.ime + " ne moze napasti jer je mrtav");
         }
     }
 
