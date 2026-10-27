@@ -4,14 +4,19 @@ import hr.tvz.java.tjedan02.nogomet.apstraktne.Gradjevina;
 import hr.tvz.java.tjedan02.nogomet.zapisi.Adresa;
 
 public class Stadion extends Gradjevina {
-    private String naziv;
     private Integer kapacitet;
     private Integer godinaIzgradnje;
     private Boolean natkriven;
 
-    public Stadion(Adresa adresa, String naziv, String naziv1) {
+    public Stadion(Adresa adresa, String naziv) {
         super(adresa, naziv);
-        this.naziv = naziv1;
+    }
+
+    public Stadion(Adresa adresa, String naziv,Integer kapacitet,Integer godinaIzgradnje, Boolean natkriven) {
+        super(adresa, naziv);
+        this.kapacitet = kapacitet;
+        this.godinaIzgradnje = godinaIzgradnje;
+        this.natkriven = natkriven;
     }
 
     @Override
@@ -24,9 +29,6 @@ public class Stadion extends Gradjevina {
 
 
     //getteri
-    public String getNaziv() {
-        return naziv;
-    }
 
     public Integer getKapacitet() {
         return kapacitet;
@@ -41,10 +43,6 @@ public class Stadion extends Gradjevina {
     }
 
     //setteri
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
-    }
-
     public void setKapacitet(Integer kapacitet) {
         this.kapacitet = kapacitet;
     }

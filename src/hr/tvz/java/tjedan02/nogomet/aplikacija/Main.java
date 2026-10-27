@@ -2,10 +2,7 @@ package hr.tvz.java.tjedan02.nogomet.aplikacija;
 
 import hr.tvz.java.tjedan02.nogomet.apstraktne.Gradjevina;
 import hr.tvz.java.tjedan02.nogomet.enumeracije.Pozicija;
-import hr.tvz.java.tjedan02.nogomet.klase.Igrac;
-import hr.tvz.java.tjedan02.nogomet.klase.NogometniKlub;
-import hr.tvz.java.tjedan02.nogomet.klase.Stadion;
-import hr.tvz.java.tjedan02.nogomet.klase.Trener;
+import hr.tvz.java.tjedan02.nogomet.klase.*;
 import hr.tvz.java.tjedan02.nogomet.zapisi.Adresa;
 
 import java.util.Scanner;
@@ -28,24 +25,6 @@ public class Main {
             System.out.print("Godina osnivanja: ");
             int godinaOsnivanja = Integer.parseInt(sc.nextLine());
             System.out.println();
-
-            //ucitavanje stadiona
-            System.out.print("Naziv stadiona: ");
-            String nazivStadiona = sc.nextLine();
-            System.out.print("Grad stadiona: ");
-            String gradStadiona = sc.nextLine();
-            System.out.print("Kapacitet: ");
-            int kapacitet = Integer.parseInt(sc.nextLine());
-            System.out.print("Godina izgradnje: ");
-            int godinaIzgradnje = Integer.parseInt(sc.nextLine());
-            System.out.print("Je li stadion natkriven: ");
-            boolean natkriven = Boolean.parseBoolean(sc.nextLine());
-
-            Stadion privremeniStadion = new Stadion(new Adresa("Ulica Mediteranskih igara","2","Split"),nazivStadiona, gradStadiona);
-            privremeniStadion.setKapacitet(kapacitet);
-            privremeniStadion.setGodinaIzgradnje(godinaIzgradnje);
-            privremeniStadion.setNatkriven(natkriven);
-
             //trener
             System.out.println();
             System.out.print("Ime trenera: ");
@@ -84,16 +63,70 @@ public class Main {
                     if (brojPozicije < 1 || brojPozicije > 4) {
                         System.out.println("Pozicija mora biti u rasponu od 1 - 4");
                     }
-
+                    System.out.println();
                 } while (brojPozicije < 1 || brojPozicije > 4);
 
-                Igrac igr = new Igrac(ime, prezime, godinaRodenja, brojDresa, pozicije[brojPozicije - 1]);
-                igraci[j] = igr;
+                igraci[j] = new Igrac(ime, prezime, godinaRodenja, brojDresa, pozicije[brojPozicije - 1]);
             }
-            Gradjevina[] gradjevina = new Gradjevina[1];
-            gradjevina = new Stadion(new Adresa("Ulica Mediteranskih igara","2","Split"), );
-            NogometniKlub nk = new NogometniKlub(naziv, grad, godinaOsnivanja,gradjevina[],privremeniTrener, igraci);
-            klubovi[i] = nk;
+
+
+            System.out.print("Koliko građevina zelite unijeti: ");
+            int brojGradevina = Integer.parseInt(sc.nextLine());
+            Gradjevina[] gradjevina = new Gradjevina[brojGradevina];
+            for (int j = 0; j < brojGradevina; j++) {
+                System.out.println("--- GRAĐEVINA " + (j + 1) + " ---\n");
+                System.out.print("Vrsta (1 - Stadion, 2 - MedicinskaOrdinacija, 3 - SportskiDom): ");
+                int vrstaGradevine;
+                while (true) {
+                    vrstaGradevine = Integer.parseInt(sc.nextLine());
+                    if (vrstaGradevine < 1 || vrstaGradevine > 3) {
+                        System.out.println("Upisana gradjevina mora bti od 1 - 3");
+                    } else {
+                        break;
+                    }
+                }
+
+                System.out.print("Naziv: ");
+                String nazivGradjevine = sc.nextLine();
+                System.out.print("Ulica: ");
+                String ulicaGradjevine = sc.nextLine();
+                System.out.print("Kucni broj: ");
+                String kucniGradjevine = sc.nextLine();
+                System.out.print("Grad: ");
+                String gradGradjevine = sc.nextLine();
+
+                Adresa adresaGradjevine = new Adresa(ulicaGradjevine, kucniGradjevine, gradGradjevine);
+                switch (vrstaGradevine) {
+                    case 1:
+                        System.out.print("Kapacitet: ");
+                        int kapacitetGradjevine = Integer.parseInt(sc.nextLine());
+                        System.out.print("Godina izgradnje: ");
+                        int godinaGodinaGradjevine = Integer.parseInt(sc.nextLine());
+                        System.out.print("Natkriven(true/false): ");
+                        boolean natkriven = Boolean.parseBoolean(sc.nextLine());
+                        gradjevina[j] = new Stadion(adresaGradjevine, nazivGradjevine, kapacitetGradjevine, godinaGodinaGradjevine, natkriven);
+                        break;
+                    case 2:
+                        System.out.print("Broj ambulanti: ");
+                        int brojAmbulantiGradjevine = Integer.parseInt(sc.nextLine());
+                        System.out.print("Ima hitnu sluzbu(true/false): ");
+                        boolean imaHitnuSluzbu = Boolean.parseBoolean(sc.nextLine());
+                        gradjevina[j] = new MedicinskaOrdinacija(adresaGradjevine, nazivGradjevine, brojAmbulantiGradjevine, imaHitnuSluzbu);
+                        break;
+                    case 3:
+                        System.out.print("Broj kreveta: ");
+                        int brojKrevetaGradjevine = Integer.parseInt(sc.nextLine());
+                        System.out.print("Ima blagovaonicu(true/false): ");
+                        boolean imaBlagovaonicu = Boolean.parseBoolean(sc.nextLine());
+                        gradjevina[j] = new SportskiDom(adresaGradjevine, nazivGradjevine, brojKrevetaGradjevine, imaBlagovaonicu);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            klubovi[i] = new NogometniKlub(naziv, grad, godinaOsnivanja, gradjevina, privremeniTrener, igraci);
+
         }
 
         int odabir;
