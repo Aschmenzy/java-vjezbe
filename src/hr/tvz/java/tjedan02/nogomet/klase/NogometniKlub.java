@@ -48,19 +48,45 @@ public class NogometniKlub implements Opisivo {
 
     @Override
     public String getOpis() {
+        String opis = "===== " + naziv.toUpperCase() + " =====\n";
+        opis += "Grad: " + grad + "\n";
+        opis += "Godina osnivanja: " + godinaOsnivanja + "\n";
+        opis += "Trener: " + trener.getIme() + " " + trener.getPrezime() + "\n";
 
-        String opis = "";
-        for (Gradjevina g : gradjevine) {
-            opis += g.getNaziv() + "\nAdresa: " + g.getAdresa().ulica() + g.getAdresa().kucniBroj() + "," + g.getAdresa().grad() + "\n"
-                    + g.getKapacitetZaIspis();
+        opis += "\nIgrači:\n";
+        for (int i = 0; i < igraci.length; i++) {
+            Igrac ig = igraci[i];
+            opis += (i + 1) + ". " + ig.getIme() + " " + ig.getPrezime() + ", "
+                    + ig.getGodinaRodenja() + "., dres " + ig.getBrojDresa() + ", " + ig.getPozicija() + "\n";
         }
-        return "===== " + naziv.toUpperCase() + " =====" + "\n"
-                + "Grad: " + grad + " \n"
-                + "Godina osnivanja: " + godinaOsnivanja + "\n"
-                + "Trener: " + trener.getIme() + " " + trener.getPrezime() + "\n"
-                + opis + "\n"
-                +"Ukupan broj kreveta: " + getUkupanBrojKreveta() + "\n";
 
+        opis += "\nGrađevine:\n";
+        for (int i = 0; i < gradjevine.length; i++) {
+            Gradjevina g = gradjevine[i];
+            String vrsta = "";
+            String posebno = "";
+
+            if (g instanceof Stadion s) {
+                vrsta = "Stadion";
+                posebno = "   Godina izgradnje: " + s.getGodinaIzgradnje() + "\n"
+                        + "   Natkriven: " + s.getNatkriven() + "\n";
+            } else if (g instanceof MedicinskaOrdinacija m) {
+                vrsta = "Medicinska ordinacija";
+                posebno = "   Ima hitnu službu: " + m.isImaHitnuSluzbu() + "\n";
+            } else if (g instanceof SportskiDom d) {
+                vrsta = "Sportski dom";
+                posebno = "   Ima blagovaonicu: " + d.isImaBlagovaonicu() + "\n";
+            }
+
+            opis += "\n" + (i + 1) + ". " + vrsta + ": " + g.getNaziv() + "\n";
+            opis += "   Adresa: " + g.getAdresa().ulica() + " " + g.getAdresa().kucniBroj()
+                    + ", " + g.getAdresa().grad() + "\n";
+            opis += "   " + g.getKapacitetZaIspis() + "\n";
+            opis += posebno;
+        }
+
+        opis += "\nUkupan broj kreveta: " + getUkupanBrojKreveta() + "\n";
+        return opis;
     }
 
     public int getUkupanBrojKreveta(){
