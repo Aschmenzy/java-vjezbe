@@ -4,7 +4,7 @@ public interface KapacitetObjekta extends Opisivo {
     String getKapacitetZaIspis();
 
     @Override
-    default String getOpis(){
-       return (getKapacitetZaIspis());
-    };
+    default String getOpis() {
+        return getKapacitetZaIspis();
+    }
 }
