@@ -27,6 +27,17 @@ public class Stadion extends Gradjevina {
         return "Kapacitet: " + kapacitet + " gledatelja";
     }
 
+    @Override
+    public String getVrsta() {
+        return "Stadion";
+    }
+
+    @Override
+    public String getPosebniPodaci() {
+        return "   Godina izgradnje: " + godinaIzgradnje + "\n"
+                + "   Natkriven: " + natkriven + "\n";
+    }
+
 
     //getteri
 

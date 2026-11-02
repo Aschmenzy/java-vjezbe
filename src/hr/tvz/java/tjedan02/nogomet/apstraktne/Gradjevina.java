@@ -11,6 +11,9 @@ public abstract class Gradjevina implements KapacitetObjekta {
         this.adresa = adresa;
         this.naziv = naziv;
     }
+    public abstract String getVrsta();
+
+    public abstract String getPosebniPodaci();
 
     public String getNaziv() {
         return naziv;
@@ -27,4 +30,6 @@ public abstract class Gradjevina implements KapacitetObjekta {
     public void setAdresa(Adresa adresa) {
         this.adresa = adresa;
     }
+
+
 }

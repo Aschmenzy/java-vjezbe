@@ -63,26 +63,12 @@ public class NogometniKlub implements Opisivo {
         opis += "\nGrađevine:\n";
         for (int i = 0; i < gradjevine.length; i++) {
             Gradjevina g = gradjevine[i];
-            String vrsta = "";
-            String posebno = "";
 
-            if (g instanceof Stadion s) {
-                vrsta = "Stadion";
-                posebno = "   Godina izgradnje: " + s.getGodinaIzgradnje() + "\n"
-                        + "   Natkriven: " + s.getNatkriven() + "\n";
-            } else if (g instanceof MedicinskaOrdinacija m) {
-                vrsta = "Medicinska ordinacija";
-                posebno = "   Ima hitnu službu: " + m.isImaHitnuSluzbu() + "\n";
-            } else if (g instanceof SportskiDom d) {
-                vrsta = "Sportski dom";
-                posebno = "   Ima blagovaonicu: " + d.isImaBlagovaonicu() + "\n";
-            }
-
-            opis += "\n" + (i + 1) + ". " + vrsta + ": " + g.getNaziv() + "\n";
+            opis += "\n" + (i + 1) + ". " + g.getVrsta() + ": " + g.getNaziv() + "\n";
             opis += "   Adresa: " + g.getAdresa().ulica() + " " + g.getAdresa().kucniBroj()
                     + ", " + g.getAdresa().grad() + "\n";
             opis += "   " + g.getKapacitetZaIspis() + "\n";
-            opis += posebno;
+            opis += g.getPosebniPodaci();
         }
 
         opis += "\nUkupan broj kreveta: " + getUkupanBrojKreveta() + "\n";

@@ -19,6 +19,16 @@ public class SportskiDom extends Gradjevina {
         return "Broj kreveta: " + brojKreveta;
     }
 
+    @Override
+    public String getVrsta() {
+        return "Sportski dom";
+    }
+
+    @Override
+    public String getPosebniPodaci() {
+        return "   Ima blagovaonicu: " + imaBlagovaonicu + "\n";
+    }
+
     public int getBrojKreveta() {
         return brojKreveta;
     }

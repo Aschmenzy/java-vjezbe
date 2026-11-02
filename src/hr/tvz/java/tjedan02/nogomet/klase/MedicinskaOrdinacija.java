@@ -19,6 +19,16 @@ public class MedicinskaOrdinacija extends Gradjevina {
         return "Broj ambulanti: " + brojAmbulanti;
     }
 
+    @Override
+    public String getVrsta() {
+        return "Medicinska ordinacija";
+    }
+
+    @Override
+    public String getPosebniPodaci() {
+        return "   Ima hitnu službu: " + imaHitnuSluzbu + "\n";
+    }
+
 
     public int getBrojAmbulanti() {
         return brojAmbulanti;

@@ -25,6 +25,7 @@ public class Main {
             System.out.print("Godina osnivanja: ");
             int godinaOsnivanja = Integer.parseInt(sc.nextLine());
             System.out.println();
+
             //trener
             System.out.println();
             System.out.print("Ime trenera: ");
