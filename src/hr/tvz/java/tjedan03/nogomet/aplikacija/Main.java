@@ -4,69 +4,50 @@ import hr.tvz.java.tjedan03.nogomet.apstraktne.Gradjevina;
 import hr.tvz.java.tjedan03.nogomet.enumeracije.Pozicija;
 import hr.tvz.java.tjedan03.nogomet.klase.*;
 import hr.tvz.java.tjedan03.nogomet.zapisi.Adresa;
+import hr.tvz.java.tjedan03.nogomet.pomocne.ExceptionHandler;
 
+import java.time.Year;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-        System.out.print("Koliko klubova želite unijeti: ");
-        int brojKlubova = Integer.parseInt(sc.nextLine());
+        ExceptionHandler handler = new ExceptionHandler(sc);
+
+
+        int brojKlubova = handler.unesiCijeliBroj("Koliko klubova želite unijeti: ",1,1000);
         NogometniKlub[] klubovi = new NogometniKlub[brojKlubova];
 
         for (int i = 0; i < brojKlubova; i++) {
             System.out.println("\n===== UNOS KLUBA " + (i + 1) + " =====");
 
-            System.out.print("Naziv kluba: ");
-            String naziv = sc.nextLine();
-            System.out.print("Grad: ");
-            String grad = sc.nextLine();
-            System.out.print("Godina osnivanja: ");
-            int godinaOsnivanja = Integer.parseInt(sc.nextLine());
+            String naziv = handler.unesiObavezanTekst("Naziv kluba: ");
+            String grad = handler.unesiObavezanTekst("Gra: ");
+            int godinaOsnivanja = handler.unesiCijeliBroj("Godina osnivanja: ");
             System.out.println();
 
             //trener
-            System.out.println();
-            System.out.print("Ime trenera: ");
-            String imeTrenera = sc.nextLine();
-            System.out.print("Prezime trenera: ");
-            String prezimeTrenera = sc.nextLine();
-            System.out.print("Godina rođenja: ");
-            int godinaRođenja = Integer.parseInt(sc.nextLine());
-            System.out.print("Godine iskustva: ");
-            int godineiskustva = Integer.parseInt(sc.nextLine());
+            String imeTrenera = handler.unesiObavezanTekst("Ime trenera: ");
+            String prezimeTrenera = handler.unesiObavezanTekst("Prezime trenera: ");
+            int godinaRođenja = handler.unesiCijeliBroj("Godina rođenja: ",1, Year.now().getValue());
+            int godineiskustva = handler.unesiCijeliBroj("Godine iskustva: ",1, Year.now().getValue());
 
             Trener privremeniTrener = new Trener(imeTrenera, prezimeTrenera, godinaRođenja, godineiskustva);
 
             //upis igraca
-            System.out.print("\nKoliko igrača želite unijeti: ");
-            int brojIgraca = Integer.parseInt(sc.nextLine());
+            int brojIgraca = handler.unesiCijeliBroj("\nKoliko igrača želite unijeti: ",0 ,1000);
             Igrac[] igraci = new Igrac[brojIgraca];
 
             for (int j = 0; j < brojIgraca; j++) {
                 System.out.println("\n--- IGRAČ " + (j + 1) + " ---");
 
-                System.out.print("Ime: ");
-                String ime = sc.nextLine();
-                System.out.print("Prezime: ");
-                String prezime = sc.nextLine();
-                System.out.print("Godina rođenja: ");
-                int godinaRodenja = Integer.parseInt(sc.nextLine());
-                System.out.print("Broj dresa: ");
-                int brojDresa = Integer.parseInt(sc.nextLine());
-                Pozicija[] pozicije = Pozicija.values();
-                int brojPozicije;
+                String ime = handler.unesiObavezanTekst("Ime: ");
+                String prezime = handler.unesiObavezanTekst("Prezime: ")
+                int godinaRodenja = handler.unesiCijeliBroj("Godina rođenja: " ,1, Year.now().getValue());
+                int brojDresa = handler.unesiCijeliBroj("Broj dresa: ",1,1000);
+                Pozicija pozicija = handler.unesiPoziciju("Pozicija (1 - VRATAR, 2 - BRANIC, 3 - VEZNJAK, 4 - NAPADAC): ");
 
-                do {
-                    System.out.print("Pozicija (1 - VRATAR, 2 - BRANIC, 3 - VEZNJAK, 4 - NAPADAC): ");
-                    brojPozicije = Integer.parseInt(sc.nextLine());
-                    if (brojPozicije < 1 || brojPozicije > 4) {
-                        System.out.println("Pozicija mora biti u rasponu od 1 - 4");
-                    }
-                } while (brojPozicije < 1 || brojPozicije > 4);
-
-                igraci[j] = new Igrac(ime, prezime, godinaRodenja, brojDresa, pozicije[brojPozicije - 1]);
+                igraci[j] = new Igrac(ime, prezime, godinaRodenja, brojDresa, pozicija);
             }
 
 
