@@ -22,13 +22,14 @@ public class ExceptionHandler {
         }
     }
 
-    public int unesiCijeliBroj(String poruka, int min, int max) {
+    //pomocne metode(privatne)
+    private int unesiBrojURasponu(String poruka, int min, int max, String greska) {
         while (true) {
             System.out.print(poruka);
             try {
                 int broj = Integer.parseInt(scanner.nextLine().trim());
                 if (broj < min || broj > max) {
-                    throw new IllegalArgumentException("vrijednost nije u dopuštenom rasponu.");
+                    throw new IllegalArgumentException(greska);
                 }
                 return broj;
             } catch (NumberFormatException e) {
@@ -37,6 +38,10 @@ public class ExceptionHandler {
                 System.out.println("Pogreška: " + e.getMessage());
             }
         }
+    }
+
+    public int unesiCijeliBroj(String poruka, int min, int max) {
+        return unesiBrojURasponu(poruka, min, max, "vrijednost nije u dopuštenom rasponu.");
     }
 
     public Integer unesiOpcionalniCijeliBroj(String poruka, int min, int max) {
@@ -88,43 +93,11 @@ public class ExceptionHandler {
 
     public Pozicija unesiPoziciju(String poruka) {
         Pozicija[] pozicije = Pozicija.values();
-
-        while (true) {
-            System.out.print(poruka);
-
-            String unos = scanner.nextLine().trim();
-
-            try {
-                int odabir = Integer.parseInt(unos);
-
-                if (odabir < 1 || odabir > pozicije.length) {
-                    System.out.println("Pogreška: odaberite jednu od ponuđenih vrijednosti.");
-                } else {
-                    return pozicije[odabir - 1];
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Pogreška: potrebno je unijeti cijeli broj.");
-            }
-        }
+        int odabir = unesiOdabir(poruka, 1, pozicije.length);
+        return pozicije[odabir - 1];
     }
 
     public int unesiOdabir(String poruka, int min, int max) {
-        while (true) {
-            System.out.print(poruka);
-            String unos = scanner.nextLine().trim();
-
-            try {
-                int odabir = Integer.parseInt(unos);
-
-                if (odabir < min || odabir > max) {
-                    System.out.println("Pogreška: odaberite jednu od ponuđenih vrijednosti.");
-                } else {
-                    return odabir;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Pogreška: potrebno je unijeti cijeli broj.");
-            }
-        }
+        return unesiBrojURasponu(poruka,min,max,"odaberite jednu od ponuđenih vrijednosti.");
     }
-
 }
