@@ -16,7 +16,7 @@ public class ExceptionHandler {
             System.out.print(poruka);
             String tekst = scanner.nextLine().trim();
 
-            if (tekst.isEmpty()) System.out.println("Unos je obavezan, pokušajte ponovno.");
+            if (tekst.isEmpty()) System.out.println("Pogreška: tekst ne smije biti prazan.");
             else return tekst;
 
         }
@@ -28,7 +28,7 @@ public class ExceptionHandler {
             try {
                 int broj = Integer.parseInt(scanner.nextLine().trim());
                 if (broj < min || broj > max) {
-                    throw new IllegalArgumentException("Broj mora biti između " + min + " i " + max + ".");
+                    throw new IllegalArgumentException("vrijednost nije u dopuštenom rasponu.");
                 }
                 return broj;
             } catch (NumberFormatException e) {
@@ -50,7 +50,7 @@ public class ExceptionHandler {
                 Integer broj = Integer.parseInt(unos);
 
                 if (broj < min || broj > max) {
-                    throw new IllegalArgumentException("Broj mora biti između " + min + " i " + max + ".");
+                    throw new IllegalArgumentException("vrijednost nije u dopuštenom rasponu.");
                 }
                 return broj;
             } catch (NumberFormatException e) {
@@ -68,7 +68,7 @@ public class ExceptionHandler {
 
             if (unos.equalsIgnoreCase("true")) return true;
             else if (unos.equalsIgnoreCase("false")) return false;
-            else System.out.println("Pogreška: potrebno je unijeti true ili false.");
+            else System.out.println("Pogreška: unesite true ili false.");
 
         }
     }
@@ -81,7 +81,7 @@ public class ExceptionHandler {
 
             if (unos.equalsIgnoreCase("true")) return true;
             else if (unos.equalsIgnoreCase("false")) return false;
-            else System.out.println("Pogreška: potrebno je unijeti true ili false.");
+            else System.out.println("Pogreška: unesite true ili false.");
 
         }
     }
@@ -90,7 +90,7 @@ public class ExceptionHandler {
         Pozicija[] pozicije = Pozicija.values();
 
         while (true) {
-            System.out.println(poruka);
+            System.out.print(poruka);
 
             String unos = scanner.nextLine().trim();
 
@@ -98,7 +98,7 @@ public class ExceptionHandler {
                 int odabir = Integer.parseInt(unos);
 
                 if (odabir < 1 || odabir > pozicije.length) {
-                    System.out.println("Pogreška: broj mora biti između 1 i " + pozicije.length + ".");
+                    System.out.println("Pogreška: odaberite jednu od ponuđenih vrijednosti.");
                 } else {
                     return pozicije[odabir - 1];
                 }
@@ -117,7 +117,7 @@ public class ExceptionHandler {
                 int odabir = Integer.parseInt(unos);
 
                 if (odabir < min || odabir > max) {
-                    System.out.println("Pogreška: broj mora biti između " + min + " i " + max + ".");
+                    System.out.println("Pogreška: odaberite jednu od ponuđenih vrijednosti.");
                 } else {
                     return odabir;
                 }
