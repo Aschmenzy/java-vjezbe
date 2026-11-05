@@ -16,8 +16,10 @@ public class ExceptionHandler {
             System.out.print(poruka);
             String tekst = scanner.nextLine().trim();
 
-            if (tekst.isEmpty()) System.out.println("Pogreška: tekst ne smije biti prazan.");
-            else return tekst;
+            if (!tekst.isEmpty()) {
+                return tekst;
+            }
+            System.out.println("Pogreška: tekst ne smije biti prazan.");
 
         }
     }
@@ -40,6 +42,12 @@ public class ExceptionHandler {
         }
     }
 
+    private boolean jeValjanBoolean(String unos) {
+        return "true".equalsIgnoreCase(unos) || "false".equalsIgnoreCase(unos);
+    }
+
+
+    //metode koje se koriste u mainu i ostatku apk
     public int unesiCijeliBroj(String poruka, int min, int max) {
         return unesiBrojURasponu(poruka, min, max, "vrijednost nije u dopuštenom rasponu.");
     }
@@ -49,7 +57,9 @@ public class ExceptionHandler {
             System.out.print(poruka);
             String unos = scanner.nextLine().trim();
 
-            if (unos.isEmpty()) return null;
+            if (unos.isEmpty()){
+                return null;
+            }
 
             try {
                 Integer broj = Integer.parseInt(unos);
@@ -70,11 +80,10 @@ public class ExceptionHandler {
         while (true) {
             System.out.print(poruka);
             String unos = scanner.nextLine().trim();
-
-            if (unos.equalsIgnoreCase("true")) return true;
-            else if (unos.equalsIgnoreCase("false")) return false;
-            else System.out.println("Pogreška: unesite true ili false.");
-
+            if (jeValjanBoolean(unos)) {
+                return Boolean.parseBoolean(unos);
+            }
+            System.out.println("Pogreška: unesite true ili false.");
         }
     }
 
@@ -82,12 +91,13 @@ public class ExceptionHandler {
         while (true) {
             System.out.print(poruka);
             String unos = scanner.nextLine().trim();
-            if (unos.isEmpty()) return null;
-
-            if (unos.equalsIgnoreCase("true")) return true;
-            else if (unos.equalsIgnoreCase("false")) return false;
-            else System.out.println("Pogreška: unesite true ili false.");
-
+            if (unos.isEmpty()) {
+                return null;
+            }
+            if (jeValjanBoolean(unos)) {
+                return Boolean.parseBoolean(unos);
+            }
+            System.out.println("Pogreška: unesite true ili false.");
         }
     }
 
@@ -98,6 +108,6 @@ public class ExceptionHandler {
     }
 
     public int unesiOdabir(String poruka, int min, int max) {
-        return unesiBrojURasponu(poruka,min,max,"odaberite jednu od ponuđenih vrijednosti.");
+        return unesiBrojURasponu(poruka, min, max, "odaberite jednu od ponuđenih vrijednosti.");
     }
 }
