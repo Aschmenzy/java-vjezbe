@@ -8,18 +8,19 @@ import hr.tvz.java.tjedan03.nogomet.pomocne.ExceptionHandler;
 
 import java.time.Year;
 import java.util.Scanner;
+import java.util.logging.Handler;
 
 public class Main {
-    public static void main(String[] args) {
+    private static final int TRENUTNA_GODINA = Year.now().getValue();
+    private static final int BEZ_GORNJE_GRANICE = Integer.MAX_VALUE;
 
-        final int TRENUTNA_GODINA = Year.now().getValue();
-        final int MAX = Integer.MAX_VALUE;
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         try {
             ExceptionHandler handler = new ExceptionHandler(sc);
 
-            int brojKlubova = handler.unesiCijeliBroj("Koliko klubova želite unijeti: ", 1, MAX);
+            int brojKlubova = handler.unesiCijeliBroj("Koliko klubova želite unijeti: ", 1, BEZ_GORNJE_GRANICE);
             NogometniKlub[] klubovi = new NogometniKlub[brojKlubova];
 
             for (int i = 0; i < brojKlubova; i++) {
@@ -30,76 +31,13 @@ public class Main {
                 int godinaOsnivanja = handler.unesiCijeliBroj("Godina osnivanja: ", 1, TRENUTNA_GODINA);
                 System.out.println();
 
-                //trener
-                String imeTrenera = handler.unesiObavezanTekst("Ime trenera: ");
-                String prezimeTrenera = handler.unesiObavezanTekst("Prezime trenera: ");
-                int godinaRodenja = handler.unesiCijeliBroj("Godina rođenja: ", 1, TRENUTNA_GODINA);
-                int godineIskustva = handler.unesiCijeliBroj("Godine iskustva: ", 0, TRENUTNA_GODINA - godinaRodenja);
-                Trener privremeniTrener = new Trener(imeTrenera, prezimeTrenera, godinaRodenja, godineIskustva);
+                Trener trener = unesiTrenera(handler);
 
-                //upis igraca
-                int brojIgraca = handler.unesiCijeliBroj("\nKoliko igrača želite unijeti: ", 0, MAX);
-                Igrac[] igraci = new Igrac[brojIgraca];
+                Igrac[] igraci = unesiViseIgraca(handler);
 
-                for (int j = 0; j < brojIgraca; j++) {
-                    System.out.println("\n--- IGRAČ " + (j + 1) + " ---");
+                Gradjevina[] gradjevine = unesiViseGradjevina(handler);
 
-                    igraci[j] = new Igrac(
-                            handler.unesiObavezanTekst("Ime: "),
-                            handler.unesiObavezanTekst("Prezime: "),
-                            handler.unesiCijeliBroj("Godina rođenja: ", 1, TRENUTNA_GODINA),
-                            handler.unesiCijeliBroj("Broj dresa: ", 1, 99),
-                            handler.unesiPoziciju("Pozicija (1 - VRATAR, 2 - BRANIC, 3 - VEZNJAK, 4 - NAPADAC): "));
-                }
-
-
-                int brojGradevina = handler.unesiCijeliBroj("\nKoliko građevina želite unijeti: ", 0, MAX);
-                Gradjevina[] gradjevina = new Gradjevina[brojGradevina];
-                for (int j = 0; j < brojGradevina; j++) {
-                    System.out.println("\n--- GRAĐEVINA " + (j + 1) + " ---");
-
-
-                    int vrstaGradevine = handler.unesiOdabir("Vrsta (1 - Stadion, 2 - MedicinskaOrdinacija, 3 - SportskiDom): ", 1, 3);
-
-
-                    String nazivGradjevine = handler.unesiObavezanTekst("Naziv: ");
-
-                    Adresa adresaGradjevine = new Adresa(
-                            handler.unesiObavezanTekst("Ulica: "),
-                            handler.unesiObavezanTekst("Kućni broj: "),
-                            handler.unesiObavezanTekst("Grad: "));
-
-                    switch (vrstaGradevine) {
-                        case 1:
-                            gradjevina[j] = new Stadion(
-                                    adresaGradjevine,
-                                    nazivGradjevine,
-                                    handler.unesiOpcionalniCijeliBroj("Kapacitet: ", 1, MAX),
-                                    handler.unesiOpcionalniCijeliBroj("Godina izgradnje: ", 1, TRENUTNA_GODINA),
-                                    handler.unesiOpcionalniBoolean("Natkriven (true/false): ")
-                            );
-                            break;
-                        case 2:
-                            gradjevina[j] = new MedicinskaOrdinacija(
-                                    adresaGradjevine,
-                                    nazivGradjevine,
-                                    handler.unesiCijeliBroj("Broj ambulanti: ", 1, MAX),
-                                    handler.unesiBoolean("Ima hitnu službu (true/false): "));
-                            break;
-                        case 3:
-                            gradjevina[j] = new SportskiDom(
-                                    adresaGradjevine,
-                                    nazivGradjevine,
-                                    handler.unesiCijeliBroj("Broj kreveta: ", 1, MAX),
-                                    handler.unesiBoolean("Ima blagovaonicu (true/false): "));
-                            break;
-                        default:
-                            break;
-                    }
-
-                }
-                klubovi[i] = new NogometniKlub(naziv, grad, godinaOsnivanja, gradjevina, privremeniTrener, igraci);
-
+                klubovi[i] = new NogometniKlub(naziv, grad, godinaOsnivanja, gradjevine, trener, igraci);
             }
 
             int odabir;
@@ -111,8 +49,8 @@ public class Main {
 
                 if (odabir == 1) {
                     try {
-                       NogometniKlub pronadeni = pronadiKlub(klubovi,
-                               handler.unesiObavezanTekst("Unesite naziv kluba: "));
+                        NogometniKlub pronadeni = pronadiKlub(klubovi,
+                                handler.unesiObavezanTekst("Unesite naziv kluba: "));
                         System.out.println(pronadeni.getOpis());
                     } catch (KlubNijePronadenException e) {
                         System.out.println(e.getMessage());
@@ -127,14 +65,86 @@ public class Main {
 
     }
 
+    //pomocne metode u mainu
     private static NogometniKlub pronadiKlub(NogometniKlub[] klubovi, String naziv) throws KlubNijePronadenException {
         for (NogometniKlub nk : klubovi) {
-            if (nk.getNaziv().equalsIgnoreCase(naziv)){
+            if (nk.getNaziv().equalsIgnoreCase(naziv)) {
                 return nk;
             }
         }
         throw new KlubNijePronadenException(naziv);
     }
+
+    private static Trener unesiTrenera(ExceptionHandler handler) {
+        String imeTrenera = handler.unesiObavezanTekst("Ime trenera: ");
+        String prezimeTrenera = handler.unesiObavezanTekst("Prezime trenera: ");
+        int godinaRodenja = handler.unesiCijeliBroj("Godina rođenja: ", 1, TRENUTNA_GODINA);
+        int godineIskustva = handler.unesiCijeliBroj("Godine iskustva: ", 0, TRENUTNA_GODINA - godinaRodenja);
+
+        return new Trener(imeTrenera, prezimeTrenera, godinaRodenja, godineIskustva);
+    }
+
+    private static Igrac unesiJednogIgraca(ExceptionHandler handler) {
+        return new Igrac(
+                handler.unesiObavezanTekst("Ime: "),
+                handler.unesiObavezanTekst("Prezime: "),
+                handler.unesiCijeliBroj("Godina rođenja: ", 1, TRENUTNA_GODINA),
+                handler.unesiCijeliBroj("Broj dresa: ", 1, 99),
+                handler.unesiPoziciju("Pozicija (1 - VRATAR, 2 - BRANIC, 3 - VEZNJAK, 4 - NAPADAC): "));
+    }
+
+    private static Igrac[] unesiViseIgraca(ExceptionHandler handler) {
+        int brojIgraca = handler.unesiCijeliBroj("\nKoliko igrača želite unijeti: ", 0, BEZ_GORNJE_GRANICE);
+        Igrac[] igraci = new Igrac[brojIgraca];
+
+        for (int i = 0; i < brojIgraca; i++) {
+            System.out.println("\n--- IGRAČ " + (i + 1) + " ---");
+            igraci[i] = unesiJednogIgraca(handler);
+        }
+        return igraci;
+    }
+
+    private static Gradjevina unesiJednuGradjevinu(ExceptionHandler handler) {
+        int vrstaGradevine = handler.unesiOdabir("Vrsta (1 - Stadion, 2 - MedicinskaOrdinacija, 3 - SportskiDom): ", 1, 3);
+        String nazivGradjevine = handler.unesiObavezanTekst("Naziv: ");
+        Adresa adresaGradjevine = new Adresa(
+                handler.unesiObavezanTekst("Ulica: "),
+                handler.unesiObavezanTekst("Kućni broj: "),
+                handler.unesiObavezanTekst("Grad: "));
+
+        return switch (vrstaGradevine) {
+            case 1 -> new Stadion(
+                    adresaGradjevine,
+                    nazivGradjevine,
+                    handler.unesiOpcionalniCijeliBroj("Kapacitet: ", 1, BEZ_GORNJE_GRANICE),
+                    handler.unesiOpcionalniCijeliBroj("Godina izgradnje: ", 1, TRENUTNA_GODINA),
+                    handler.unesiOpcionalniBoolean("Natkriven (true/false): "));
+            case 2 -> new MedicinskaOrdinacija(
+                    adresaGradjevine,
+                    nazivGradjevine,
+                    handler.unesiCijeliBroj("Broj ambulanti: ", 1, BEZ_GORNJE_GRANICE),
+                    handler.unesiBoolean("Ima hitnu službu (true/false): "));
+            case 3 -> new SportskiDom(
+                    adresaGradjevine,
+                    nazivGradjevine,
+                    handler.unesiCijeliBroj("Broj kreveta: ", 1, BEZ_GORNJE_GRANICE),
+                    handler.unesiBoolean("Ima blagovaonicu (true/false): "));
+            default -> throw new IllegalStateException("Nepoznata vrsta građevine: " + vrstaGradevine);
+        };
+    }
+
+    private static Gradjevina[] unesiViseGradjevina(ExceptionHandler handler) {
+        int brojGradevina = handler.unesiCijeliBroj("\nKoliko građevina želite unijeti: ", 0, BEZ_GORNJE_GRANICE);
+        Gradjevina[] gradjevine = new Gradjevina[brojGradevina];
+        for (int i = 0; i < brojGradevina; i++) {
+            System.out.println("\n--- GRAĐEVINA " + (i + 1) + " ---");
+
+            gradjevine[i] = unesiJednuGradjevinu(handler);
+        }
+        return gradjevine;
+    }
+
+
 }
 
 
