@@ -8,7 +8,6 @@ import hr.tvz.java.tjedan03.nogomet.pomocne.ExceptionHandler;
 
 import java.time.Year;
 import java.util.Scanner;
-import java.util.logging.Handler;
 
 public class Main {
     private static final int TRENUTNA_GODINA = Year.now().getValue();
@@ -47,16 +46,22 @@ public class Main {
                 System.out.println("0 - Završi program");
                 odabir = handler.unesiOdabir("Odabir: ", 0, 1);
 
-                if (odabir == 1) {
-                    try {
-                        NogometniKlub pronadeni = pronadiKlub(klubovi,
-                                handler.unesiObavezanTekst("Unesite naziv kluba: "));
-                        System.out.println(pronadeni.getOpis());
-                    } catch (KlubNijePronadenException e) {
-                        System.out.println(e.getMessage());
+                switch (odabir) {
+                    case 1 -> {
+                        try {
+                            NogometniKlub pronadeni = pronadiKlub(klubovi,
+                                    handler.unesiObavezanTekst("Unesite naziv kluba: "));
+                            System.out.println(pronadeni.getOpis());
+                        } catch (KlubNijePronadenException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    case 0 -> {
+                        // izlaz iz petlje rjesava uvjet while (odabir != 0)
                     }
                 }
             } while (odabir != 0);
+
         } finally {
             sc.close();
             System.out.println("Program je završio.");
