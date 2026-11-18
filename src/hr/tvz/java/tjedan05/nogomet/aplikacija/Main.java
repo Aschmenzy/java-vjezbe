@@ -1,6 +1,7 @@
 package hr.tvz.java.tjedan05.nogomet.aplikacija;
 
 import hr.tvz.java.tjedan05.nogomet.apstraktne.Gradjevina;
+import hr.tvz.java.tjedan05.nogomet.genericki.KlupskaEvidencija;
 import hr.tvz.java.tjedan05.nogomet.iznimke.KlubNijePronadenException;
 import hr.tvz.java.tjedan05.nogomet.klase.*;
 import hr.tvz.java.tjedan05.nogomet.pomocne.ExceptionHandler;
@@ -38,7 +39,9 @@ public class Main {
 
                 Gradjevina[] gradjevine = unesiViseGradjevina(handler);
 
-                klubovi[i] = new NogometniKlub(naziv, grad, godinaOsnivanja, gradjevine, trener, igraci);
+                KlupskaEvidencija<Navijac> evidencijaNavijaca = KlupskaEvidencija.izNiza(navijaci);
+
+                klubovi[i] = new NogometniKlub(naziv, grad, godinaOsnivanja, gradjevine, trener, igraci, evidencijaNavijaca);
             }
 
             int odabir;

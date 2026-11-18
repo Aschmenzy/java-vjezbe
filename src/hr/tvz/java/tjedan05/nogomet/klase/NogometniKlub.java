@@ -1,6 +1,7 @@
 package hr.tvz.java.tjedan05.nogomet.klase;
 
 import hr.tvz.java.tjedan05.nogomet.apstraktne.Gradjevina;
+import hr.tvz.java.tjedan05.nogomet.genericki.KlupskaEvidencija;
 import hr.tvz.java.tjedan05.nogomet.sucelja.Opisivo;
 
 public class NogometniKlub implements Opisivo {
@@ -10,40 +11,16 @@ public class NogometniKlub implements Opisivo {
     private Gradjevina[] gradjevine;
     private Trener trener;
     private Igrac[] igraci;
+    private KlupskaEvidencija<Navijac> navijaci;
 
-    public NogometniKlub(String naziv, String grad, int godinaOsnivanja, Gradjevina[] gradjevina, Trener trener, Igrac[] igraci) {
+    public NogometniKlub(String naziv, String grad, int godinaOsnivanja, Gradjevina[] gradjevina, Trener trener, Igrac[] igraci,KlupskaEvidencija<Navijac> navijaci) {
         this.naziv = naziv;
         this.grad = grad;
         this.godinaOsnivanja = godinaOsnivanja;
         this.gradjevine = gradjevina;
         this.trener = trener;
         this.igraci = igraci;
-    }
-
-
-    //getteri
-    public String getNaziv() {
-        return this.naziv;
-    }
-
-    public String getGrad() {
-        return this.grad;
-    }
-
-    public int getGodinaOsnivanja() {
-        return this.godinaOsnivanja;
-    }
-
-    public Gradjevina[] getGradjevine() {
-        return gradjevine;
-    }
-
-    public Trener getTrener() {
-        return this.trener;
-    }
-
-    public Igrac[] getIgraci() {
-        return this.igraci;
+        setNavijaci(navijaci);
     }
 
     @Override
@@ -58,6 +35,14 @@ public class NogometniKlub implements Opisivo {
             Igrac ig = igraci[i];
             opis += (i + 1) + ". " + ig.getIme() + " " + ig.getPrezime() + ", "
                     + ig.getGodinaRodenja() + "., dres " + ig.getBrojDresa() + ", " + ig.getPozicija() + "\n";
+        }
+
+        opis += "\nNavijači:\n";
+        for (int i = 0; i < navijaci.brojElemenata(); i++) {
+            Navijac navijac = navijaci.dohvati(i);
+            opis += (i + 1) + ". " + navijac.getIme() + " " + navijac.getPrezime() + ", "
+                    + navijac.getGodinaRodenja() + "., posjećenih utakmica: " + navijac.getBrojPosjecenihUtakmica()
+                    + ", glasnoća navijanja: " + navijac.getGlasnocaNavijanja() + "\n";
         }
 
         opis += "\nGrađevine:\n";
@@ -83,30 +68,63 @@ public class NogometniKlub implements Opisivo {
         return kreveta;
     }
 
-    //setteri
+    public String getNaziv() {
+        return naziv;
+    }
+
     public void setNaziv(String naziv) {
         this.naziv = naziv;
+    }
+
+    public String getGrad() {
+        return grad;
     }
 
     public void setGrad(String grad) {
         this.grad = grad;
     }
 
+    public int getGodinaOsnivanja() {
+        return godinaOsnivanja;
+    }
+
     public void setGodinaOsnivanja(int godinaOsnivanja) {
         this.godinaOsnivanja = godinaOsnivanja;
     }
 
-    public void setTrener(Trener trener) {
-        this.trener = trener;
-    }
-
-    public void setIgraci(Igrac[] igraci) {
-        this.igraci = igraci;
+    public Gradjevina[] getGradjevine() {
+        return gradjevine;
     }
 
     public void setGradjevine(Gradjevina[] gradjevine) {
         this.gradjevine = gradjevine;
     }
 
+    public Trener getTrener() {
+        return trener;
+    }
 
+    public void setTrener(Trener trener) {
+        this.trener = trener;
+    }
+
+    public Igrac[] getIgraci() {
+        return igraci;
+    }
+
+    public void setIgraci(Igrac[] igraci) {
+        this.igraci = igraci;
+    }
+
+    public KlupskaEvidencija<Navijac> getNavijaci() {
+        return navijaci;
+    }
+
+    public void setNavijaci(KlupskaEvidencija<Navijac> navijaci) {
+        if (navijaci == null) {
+            this.navijaci = new KlupskaEvidencija<>();
+        } else {
+            this.navijaci = navijaci;
+        }
+    }
 }
