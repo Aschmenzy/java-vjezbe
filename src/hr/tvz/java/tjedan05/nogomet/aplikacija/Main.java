@@ -1,6 +1,7 @@
 package hr.tvz.java.tjedan05.nogomet.aplikacija;
 
 import hr.tvz.java.tjedan05.nogomet.apstraktne.Gradjevina;
+import hr.tvz.java.tjedan05.nogomet.apstraktne.Osoba;
 import hr.tvz.java.tjedan05.nogomet.genericki.KlupskaEvidencija;
 import hr.tvz.java.tjedan05.nogomet.iznimke.KlubNijePronadenException;
 import hr.tvz.java.tjedan05.nogomet.klase.*;
@@ -54,9 +55,10 @@ public class Main {
                 switch (odabir) {
                     case 1 -> {
                         try {
-                            NogometniKlub pronadeni = pronadiKlub(klubovi,
-                                    handler.unesiObavezanTekst("Unesite naziv kluba: "));
+                            NogometniKlub pronadeni = pronadiKlub(klubovi,handler.unesiObavezanTekst("Unesite naziv kluba: "));
                             System.out.println(pronadeni.getOpis());
+                            ispisiBrojElemenata(pronadeni.getNavijaci());
+                            ispisiImenaOsoba(pronadeni.getNavijaci());
                         } catch (KlubNijePronadenException e) {
                             System.out.println(e.getMessage());
                         }
@@ -174,6 +176,23 @@ public class Main {
         return gradjevine;
     }
 
+    private static void ispisiBrojElemenata(KlupskaEvidencija<?> evidencija){
+        System.out.println("Broj navijača: " + evidencija.brojElemenata());
+    }
+
+    private static void ispisiImenaOsoba(KlupskaEvidencija<? extends Osoba> evidencija) {
+        System.out.println("Popis imena navijača:");
+
+        if (evidencija.jePrazna()) {
+            System.out.println("Nema unesenih osoba.");
+            return;
+        }
+
+        for (int i = 0; i < evidencija.brojElemenata(); i++) {
+            Osoba osoba = evidencija.dohvati(i);
+            System.out.println(osoba.getIme() + " " + osoba.getPrezime());
+        }
+    }
 
 }
 
