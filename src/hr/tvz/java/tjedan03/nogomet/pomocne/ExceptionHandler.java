@@ -11,18 +11,7 @@ public class ExceptionHandler {
         this.scanner = scanner;
     }
 
-    public String unesiObavezanTekst(String poruka) {
-        while (true) {
-            System.out.print(poruka);
-            String tekst = scanner.nextLine().trim();
 
-            if (!tekst.isEmpty()) {
-                return tekst;
-            }
-            System.out.println("Pogreška: tekst ne smije biti prazan.");
-
-        }
-    }
 
     //pomocne metode(privatne)
     private int unesiBrojURasponu(String poruka, int min, int max, String greska) {
@@ -48,6 +37,20 @@ public class ExceptionHandler {
 
 
     //metode koje se koriste u mainu i ostatku apk
+
+    public String unesiObavezanTekst(String poruka) {
+        while (true) {
+            System.out.print(poruka);
+            String tekst = scanner.nextLine().trim();
+
+            if (!tekst.isEmpty()) {
+                return tekst;
+            }
+            System.out.println("Pogreška: tekst ne smije biti prazan.");
+
+        }
+    }
+
     public int unesiCijeliBroj(String poruka, int min, int max) {
         return unesiBrojURasponu(poruka, min, max, "vrijednost nije u dopuštenom rasponu.");
     }
