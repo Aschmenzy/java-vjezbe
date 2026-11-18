@@ -41,8 +41,9 @@ public class NogometniKlub implements Opisivo {
         for (int i = 0; i < navijaci.brojElemenata(); i++) {
             Navijac navijac = navijaci.dohvati(i);
             opis += (i + 1) + ". " + navijac.getIme() + " " + navijac.getPrezime() + ", "
-                    + navijac.getGodinaRodenja() + "., posjećenih utakmica: " + navijac.getBrojPosjecenihUtakmica()
-                    + ", glasnoća navijanja: " + navijac.getGlasnocaNavijanja() + "\n";
+                    + navijac.getGodinaRodenja() + "., "
+                    + navijac.getBrojPosjecenihUtakmica() + " " + oblikPosjecenihUtakmica(navijac.getBrojPosjecenihUtakmica())
+                    + ", glasnoća " + navijac.getGlasnocaNavijanja() + "/10\n";
         }
 
         opis += "\nGrađevine:\n";
@@ -58,6 +59,20 @@ public class NogometniKlub implements Opisivo {
 
         opis += "\nUkupan broj kreveta: " + getUkupanBrojKreveta() + "\n";
         return opis;
+    }
+
+    // 1, 21, 31... -> "posjećena utakmica"; 2-4, 22-24... -> "posjećene utakmice"; ostalo -> "posjećenih utakmica"
+    private String oblikPosjecenihUtakmica(int broj) {
+        int zadnjaZnamenka = broj % 10;
+        int zadnjeDvije = broj % 100;
+
+        if (zadnjaZnamenka == 1 && zadnjeDvije != 11) {
+            return "posjećena utakmica";
+        }
+        if (zadnjaZnamenka >= 2 && zadnjaZnamenka <= 4 && (zadnjeDvije < 12 || zadnjeDvije > 14)) {
+            return "posjećene utakmice";
+        }
+        return "posjećenih utakmica";
     }
 
     public int getUkupanBrojKreveta(){
